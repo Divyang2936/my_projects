@@ -1,0 +1,14 @@
+# Environment and secret files
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# Build output
+**/target/
+**/dist/
+
+# IDE and OS files
+.idea/
+.vscode/
+*.log
