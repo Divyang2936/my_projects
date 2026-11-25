@@ -2,6 +2,7 @@
 
 import { Bot, UserRound } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 import { ChatMarkdown } from "@/components/chat/chat-markdown";
 import { CitationChips } from "@/components/chat/citation-chips";
@@ -50,20 +51,31 @@ export function ChatMessages({
     <ScrollArea className="flex-1">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-5 px-4 py-6">
         {messages.length === 0 && !streamText && (
-          <div className="rounded-2xl border border-dashed bg-muted/30 px-6 py-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="rounded-2xl border border-dashed bg-muted/30 px-6 py-10 text-center"
+          >
             <p className="font-medium">Ask anything about this codebase</p>
             <p className="mt-1 text-sm text-muted-foreground">
               Try “Where is authentication handled?” or “Explain the repository
               indexing flow.”
             </p>
-          </div>
+          </motion.div>
         )}
 
         <MessageGroup>
           {messages.map((message) => {
             const isUser = message.role === "USER";
             return (
-              <Message key={message.id} align={isUser ? "end" : "start"}>
+              <motion.div
+                key={message.id}
+                initial={{ opacity: 0, y: 8, x: isUser ? 8 : -8 }}
+                animate={{ opacity: 1, y: 0, x: 0 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+              >
+              <Message align={isUser ? "end" : "start"}>
                 <MessageAvatar>
                   <Avatar className="size-8">
                     <AvatarFallback
@@ -104,10 +116,16 @@ export function ChatMessages({
                   )}
                 </MessageContent>
               </Message>
+              </motion.div>
             );
           })}
 
           {streamText && (
+            <motion.div
+              initial={{ opacity: 0, y: 8, x: -8 }}
+              animate={{ opacity: 1, y: 0, x: 0 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+            >
             <Message align="start">
               <MessageAvatar>
                 <Avatar className="size-8">
@@ -125,6 +143,7 @@ export function ChatMessages({
                 </Bubble>
               </MessageContent>
             </Message>
+            </motion.div>
           )}
         </MessageGroup>
         <div ref={bottomRef} />

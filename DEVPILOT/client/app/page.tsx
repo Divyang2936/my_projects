@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, FolderGit2, MessageSquareCode, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 
 import { DevPilotIcon } from "@/components/icons/devpilot-icon";
 import { BrandMark } from "@/components/layout/app-shell";
@@ -9,11 +12,21 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { getGithubLoginUrl } from "@/lib/api";
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
 export default function HomePage() {
   return (
     <div className="relative min-h-svh overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(from_var(--primary)_l_c_h/0.12),transparent_55%)]" />
-      <header className="relative z-10 mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4">
+      <motion.header
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="relative z-10 mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4"
+      >
         <BrandMark />
         <div className="flex items-center gap-2">
           <ModeToggle />
@@ -24,23 +37,44 @@ export default function HomePage() {
             Sign in
           </Link>
         </div>
-      </header>
+      </motion.header>
 
       <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-col gap-16 px-4 py-16 md:py-24">
-        <section className="mx-auto max-w-2xl space-y-6 text-center">
-          <div className="mx-auto flex size-14 items-center justify-center rounded-2xl shadow-sm">
+        <motion.section
+          initial="hidden"
+          animate="visible"
+          transition={{ staggerChildren: 0.12 }}
+          className="mx-auto max-w-2xl space-y-6 text-center"
+        >
+          <motion.div
+            variants={fadeUp}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="mx-auto flex size-14 items-center justify-center rounded-2xl shadow-sm"
+          >
             <DevPilotIcon className="size-14 rounded-2xl" />
-          </div>
+          </motion.div>
           <div className="space-y-3">
-            <h1 className="font-heading text-4xl font-semibold tracking-tight sm:text-5xl">
+            <motion.h1
+              variants={fadeUp}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+              className="font-heading text-4xl font-semibold tracking-tight sm:text-5xl"
+            >
               DevPilot
-            </h1>
-            <p className="text-lg text-muted-foreground text-balance">
+            </motion.h1>
+            <motion.p
+              variants={fadeUp}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+              className="text-lg text-muted-foreground text-balance"
+            >
               Connect GitHub, index any repository, and chat with your codebase
               using retrieval-augmented answers and citations.
-            </p>
+            </motion.p>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <motion.div
+            variants={fadeUp}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="flex flex-wrap items-center justify-center gap-3"
+          >
             <a
               href={getGithubLoginUrl()}
               className={cn(
@@ -58,10 +92,16 @@ export default function HomePage() {
             >
               See how it works
             </Link>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
-        <section className="grid gap-4 md:grid-cols-3">
+        <motion.section
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ staggerChildren: 0.1 }}
+          className="grid gap-4 md:grid-cols-3"
+        >
           {[
             {
               title: "Connect GitHub",
@@ -79,8 +119,11 @@ export default function HomePage() {
               icon: MessageSquareCode,
             },
           ].map((item) => (
-            <div
+            <motion.div
               key={item.title}
+              variants={fadeUp}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="rounded-2xl border bg-card/80 p-5 shadow-xs backdrop-blur"
             >
               <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-muted">
@@ -88,9 +131,9 @@ export default function HomePage() {
               </div>
               <h2 className="font-medium">{item.title}</h2>
               <p className="mt-1.5 text-sm text-muted-foreground">{item.body}</p>
-            </div>
+            </motion.div>
           ))}
-        </section>
+        </motion.section>
       </main>
     </div>
   );

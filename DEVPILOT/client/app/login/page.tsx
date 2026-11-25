@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 import { AlertCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 import { GitHubIcon } from "@/components/icons/github-icon";
 import { BrandMark } from "@/components/layout/app-shell";
@@ -56,7 +57,13 @@ const LoginContent = () => {
       </header>
 
       <main className="relative z-10 flex flex-1 items-center justify-center px-4 py-10">
-        <Card className="w-full max-w-sm border-border/70 bg-card/90 shadow-lg shadow-foreground/5 backdrop-blur-xl">
+        <motion.div
+          initial={{ opacity: 0, y: 24, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="w-full max-w-sm"
+        >
+        <Card className="w-full border-border/70 bg-card/90 shadow-lg shadow-foreground/5 backdrop-blur-xl">
           <CardHeader className="space-y-4 text-center">
             <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-foreground text-background">
               <GitHubIcon className="size-6" />
@@ -90,6 +97,7 @@ const LoginContent = () => {
             </a>
           </CardContent>
         </Card>
+        </motion.div>
       </main>
     </div>
   )

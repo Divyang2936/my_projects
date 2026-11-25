@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { FolderGit2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { RepoCard } from "@/components/dashboard/repo-card";
@@ -102,11 +103,27 @@ export function RepoDashboard() {
         )}
 
         {reposQuery.isSuccess && filtered.length > 0 && (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 1 },
+              visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
+            }}
+            className="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+          >
             {filtered.map((repo) => (
-              <RepoCard key={repo.id} repo={repo} />
+              <motion.div
+                key={repo.id}
+                variants={{
+                  hidden: { opacity: 0, y: 16 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
+                }}
+              >
+                <RepoCard repo={repo} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
     </div>
