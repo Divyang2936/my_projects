@@ -1,0 +1,52 @@
+#Database Configuration
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5434}/${DB_NAME:docmind}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+#OpenAPI Configuration
+ai:
+  openai:
+    api-key: ${OPENAI_API_KEY:demo-key}
+    chat:
+      model: ${OPENAI_CHAT_MODEL:gpt-4o-mini}
+      temperature: ${OPENAI_CHAT_TEMPERATURE:0.2}
+    embedding:
+      model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+    vector:
+      pgvector:
+        index-type: ${PGVECTOR_INDEX_TYPE:HNSW}
+        distance-type: ${PGVECTOR_DISTANCE_TYPE:COSINE_DISTANCE}
+        dimension: ${PGVECTOR_DIMENSION:1536}
+        table-name: ${PGVECTOR_TABLE_NAME:vector_store}
+        schema-name: ${PGVECTOR_SCHEMA_NAME:public}
+        initialize: ${PGVECTOR_INITIALIZE:true}
+
+    servlet:
+      maltipart:
+        max-file-size: ${MAX_FILE_SIZE:25MB}
+        max-request-size: ${MAX_REQUEST_SIZE:50MB}
+
+
+#app configuration
+app:
+  rag:
+    chunk:
+      size: ${RAG_CHUNK_SIZE:600}
+      overlap: ${RAG_CHUNK_OVERLAP:100}
+      top_k: ${RAG_TOP_K:5}
+      similarity_threshold: ${RAG_SIMILARITY_THRESHOLD:0.0}
+
+  cros:
+    allowed-origins: "*"
+    allowed-methods: GET, POST, PUT, DELETE, OPTIONS
+    allowed-headers: "*"
